@@ -1,0 +1,27 @@
+syntax = "proto3";
+package market;
+
+option go_package = "market";
+
+message Depth {
+  repeated string depth = 1;
+}
+
+message MarketResponse {
+  string organize = 1;
+  string symbol = 2;
+  string buy_first = 3;
+  string sell_first = 4;
+  repeated Depth buy_depth = 5;
+  repeated Depth sell_depth = 6;
+  int64 timestamp = 7;
+}
+
+message MarketRequest {
+  string organize = 1;
+  string symbol = 2;
+}
+
+service Market {
+  rpc GetMarket(MarketRequest) returns (MarketResponse) {}
+}

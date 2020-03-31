@@ -1,0 +1,9 @@
+app: "marketApi"
+version: "0.1"
+run_mode: "debug"
+
+http:
+  port: 8000
+
+rpc:
+  port: 8010
