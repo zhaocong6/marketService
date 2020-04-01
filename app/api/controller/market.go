@@ -1,14 +1,13 @@
-package market
+package controller
 
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/zhaocong6/market"
-	"ws/marketApi/app/api/controller"
-	"ws/marketApi/app/logic/marketLogic"
+	logic2 "ws/marketApi/app/logic"
 )
 
 type Marketer struct {
-	controller.Base
+	Base
 }
 
 func (m *Marketer) Index(c *gin.Context) {
@@ -31,7 +30,7 @@ func (m *Marketer) Store(c *gin.Context) {
 		return
 	}
 
-	logic := &marketLogic.Store{
+	logic := &logic2.Store{
 		Organize:   store.Organize,
 		MarketType: store.MarketType,
 		Symbol:     store.Symbol,

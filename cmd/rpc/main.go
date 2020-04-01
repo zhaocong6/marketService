@@ -11,7 +11,7 @@ import (
 	"net/http"
 	"net/url"
 	"time"
-	rpcMarket "ws/marketApi/app/rpc/controller/market"
+	"ws/marketApi/app/rpc/controller"
 	"ws/marketApi/pkg/setting"
 )
 
@@ -23,7 +23,7 @@ func main() {
 	}
 
 	s := grpc.NewServer()
-	marketPd.RegisterMarketServer(s, &rpcMarket.Market{})
+	marketPd.RegisterMarketServer(s, &controller.Market{})
 
 	log.Println("服务已启动...")
 	err = s.Serve(listen)

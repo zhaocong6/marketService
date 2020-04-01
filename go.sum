@@ -89,6 +89,8 @@ github.com/zhaocong6/market v0.0.4 h1:h/GJgB1USFImygw71nkPyzz0n3FrgdRe1ZnxXGMlUm
 github.com/zhaocong6/market v0.0.4/go.mod h1:T1EZPku/gyqPkdsuXt5PQXeIw+f7/7NNhO/9/mtlNNA=
 github.com/zhaocong6/market v0.0.5 h1:0fvcmz/j8jkhTcN9ceaYLBWfldp0CujU+F/t4sso4eY=
 github.com/zhaocong6/market v0.0.5/go.mod h1:T1EZPku/gyqPkdsuXt5PQXeIw+f7/7NNhO/9/mtlNNA=
+github.com/zhaocong6/market v0.0.6-0.20200401071502-f907bd9d1ea2 h1:vznG7wrEbHFlvoldCJlAS0F7O5lTNuA4EqITpaVYqi0=
+github.com/zhaocong6/market v0.0.6-0.20200401071502-f907bd9d1ea2/go.mod h1:T1EZPku/gyqPkdsuXt5PQXeIw+f7/7NNhO/9/mtlNNA=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
 golang.org/x/crypto v0.0.0-20190325154230-a5d413f7728c/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
 golang.org/x/crypto v0.0.0-20191205180655-e7c4368fe9dd/go.mod h1:LzIPMQfyMNhhGPhUkYOs5KpL4U8rLKemX1yGLhDgUto=

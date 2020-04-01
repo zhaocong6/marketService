@@ -27,6 +27,19 @@ func marketListen() {
 		HandshakeTimeout: 10 * time.Second,
 	}
 	market.Run()
+
+	go func() {
+		models.Market{}.GetChunk(models.Market{}.Query(), func(markets []models.Market) {
+			for _, m := range markets {
+				h := &market.Subscriber{
+					Symbol:     m.Symbol,
+					MarketType: market.MarketType(m.Type),
+					Organize:   market.Organize(m.Organize),
+				}
+				market.WriteSubscribing <- h
+			}
+		})
+	}()
 }
 
 func serveListen() {

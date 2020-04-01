@@ -16,7 +16,7 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.1 // indirect
 	github.com/zhaocong6/goUtils v1.0.3 // indirect
-	github.com/zhaocong6/market v0.0.5
+	github.com/zhaocong6/market v0.0.6-0.20200401071502-f907bd9d1ea2
 	golang.org/x/net v0.0.0-20200324143707-d3edc9973b7e // indirect
 	golang.org/x/sys v0.0.0-20200327173247-9dae0f8f5775 // indirect
 	google.golang.org/genproto v0.0.0-20200330113809-af700f360a68 // indirect

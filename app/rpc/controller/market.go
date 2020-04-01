@@ -1,13 +1,12 @@
-package market
+package controller
 
 import (
 	"context"
 	"github.com/zhaocong6/market"
 	marketPd "market.pd"
-	"ws/marketApi/app/rpc/controller"
 )
 
-type Market controller.Base
+type Market Base
 
 func (m Market) GetMarket(ctx context.Context, in *marketPd.MarketRequest) (*marketPd.MarketResponse, error) {
 	var resp = new(marketPd.MarketResponse)
