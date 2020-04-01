@@ -5,13 +5,18 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"log"
+	"sync"
+	"time"
+	"ws/marketApi/libs/snowflakelib"
 	"ws/marketApi/pkg/setting"
 )
 
 var db *gorm.DB
 
 func init() {
-	db, err := gorm.Open(setting.DB.Type,
+	var err error
+
+	db, err = gorm.Open(setting.DB.Type,
 		fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=%s&collation=%s&parseTime=True&loc=Local",
 			setting.DB.User,
 			setting.DB.Password,
@@ -34,4 +39,56 @@ func init() {
 
 func CloseDB() {
 	defer db.Close()
+}
+
+type Model struct {
+	ID        uint64     `json:"id" gorm:"primary_key"`
+	CreatedAt time.Time  `json:"created_at"`
+	UpdatedAt time.Time  `json:"updated_at"`
+	DeletedAt *time.Time `json:"deleted_at"`
+}
+
+func (m *Model) BeforeSave(scope *gorm.Scope) error {
+	err := scope.SetColumn("ID", snowflakelib.Uint64ID())
+	return err
+}
+
+func (m *Model) BeforeCreate(scope *gorm.Scope) error {
+	err := scope.SetColumn("ID", snowflakelib.Uint64ID())
+	return err
+}
+
+type Transaction struct {
+	db       *gorm.DB
+	Tx       *gorm.DB
+	rollBack bool
+	commit   bool
+	lock     sync.Mutex
+}
+
+func NewTransaction() *Transaction {
+	return &Transaction{
+		db: db,
+		Tx: db.Begin(),
+	}
+}
+
+func (t *Transaction) Rollback() {
+	t.lock.Lock()
+	t.lock.Unlock()
+
+	if t.rollBack == false && t.commit == false {
+		t.Tx.Rollback()
+		t.rollBack = true
+	}
+}
+
+func (t *Transaction) Commit() {
+	t.lock.Lock()
+	t.lock.Unlock()
+
+	if t.commit == false && t.rollBack == false {
+		t.Tx.Commit()
+		t.commit = true
+	}
 }

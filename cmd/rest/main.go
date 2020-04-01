@@ -16,7 +16,20 @@ import (
 
 func main() {
 	defer models.CloseDB()
-	marketRun()
+	marketListen()
+	serveListen()
+}
+
+func marketListen() {
+	uProxy, _ := url.Parse("http://127.0.0.1:8888")
+	market.DefaultDialer = &websocket.Dialer{
+		Proxy:            http.ProxyURL(uProxy),
+		HandshakeTimeout: 10 * time.Second,
+	}
+	market.Run()
+}
+
+func serveListen() {
 	gin.SetMode(setting.RunMode)
 	router := gin.New()
 	routes.InitApi(router)
@@ -32,57 +45,5 @@ func main() {
 	err := server.ListenAndServe()
 	if err != nil {
 		log.Panicln(err)
-	}
-}
-
-func marketRun() {
-	uProxy, _ := url.Parse("http://127.0.0.1:8888")
-	market.DefaultDialer = &websocket.Dialer{
-		Proxy:            http.ProxyURL(uProxy),
-		HandshakeTimeout: 10 * time.Second,
-	}
-	market.Run()
-
-	for k := range map[string]string{
-		"ETH-USDT": "",
-		"BTC-USDT": "",
-		"EOS-USDT": "",
-		"TRX-USDT": "",
-		"BCH-USDT": "",
-		"OKB-USDT": "",
-		"XRP-USDT": "",
-		"BSV-USDT": "",
-		"LTC-USDT": "",
-		"ADA-USDT": "",
-	} {
-
-		s := &market.Subscriber{
-			Symbol:     k,
-			MarketType: market.SpotMarket,
-			Organize:   market.OkEx,
-		}
-		market.WriteSubscribing <- s
-	}
-
-	for k := range map[string]string{
-		"ethusdt": "",
-		"btcusdt": "",
-		"eosusdt": "",
-		"trxusdt": "",
-		"bchusdt": "",
-		"htusdt":  "",
-		"xrpusdt": "",
-		"bsvusdt": "",
-		"ltcusdt": "",
-		"adausdt": "",
-	} {
-
-		h := &market.Subscriber{
-			Symbol:     k,
-			MarketType: market.SpotMarket,
-			Organize:   market.HuoBi,
-		}
-
-		market.WriteSubscribing <- h
 	}
 }

@@ -1,7 +1,7 @@
 syntax = "proto3";
 package market;
 
-option go_package = "market";
+option go_package = "marketLogic";
 
 message Depth {
   repeated string depth = 1;
