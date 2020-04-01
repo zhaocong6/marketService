@@ -9,16 +9,17 @@ import (
 	"net/http"
 	"net/url"
 	"time"
+	"ws/marketApi/models"
 	"ws/marketApi/pkg/setting"
 	"ws/marketApi/routes"
 )
 
 func main() {
+	defer models.CloseDB()
 	marketRun()
 	gin.SetMode(setting.RunMode)
 	router := gin.New()
 	routes.InitApi(router)
-
 	server := &http.Server{
 		Handler:           router,
 		Addr:              fmt.Sprintf(":%d", setting.HTTP.Port),

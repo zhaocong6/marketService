@@ -7,5 +7,8 @@ import (
 
 func InitApi(r *gin.Engine) {
 	g := r.Group("/api/v1")
-	g.GET("/market", market.Index)
+
+	marketC := &market.Marketer{}
+	g.GET("/market", marketC.Index)
+	g.POST("/market", marketC.Store)
 }

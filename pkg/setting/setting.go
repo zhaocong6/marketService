@@ -6,14 +6,6 @@ import (
 	"log"
 )
 
-type httpType struct {
-	Port int `yaml:"port"`
-}
-
-type rpcType struct {
-	Port int `yaml:"port"`
-}
-
 type app struct {
 	Version string `yaml:"version"`
 	App     string `yaml:"app"`
@@ -21,6 +13,7 @@ type app struct {
 
 	Http httpType `yaml:"http"`
 	Rpc  rpcType  `yaml:"rpc"`
+	DB   dbType   `yaml:"db"`
 }
 
 var conf app
@@ -41,18 +34,27 @@ func init() {
 	loadVer()
 	loadApp()
 	loadRunMode()
+	loadDB()
 }
 
-var HTTP httpType
+type httpType struct {
+	Port int `yaml:"port"`
+}
+
+var HTTP *httpType
 
 func loadHTTP() {
-	HTTP = conf.Http
+	HTTP = &conf.Http
 }
 
-var RPC rpcType
+type rpcType struct {
+	Port int `yaml:"port"`
+}
+
+var RPC *rpcType
 
 func loadRPC() {
-	RPC = conf.Rpc
+	RPC = &conf.Rpc
 }
 
 var Ver string
@@ -71,4 +73,21 @@ var RunMode string
 
 func loadRunMode() {
 	RunMode = conf.RunMode
+}
+
+type dbType struct {
+	Type      string `yaml:"type"`
+	User      string `yaml:"user"`
+	Password  string `yaml:"password"`
+	Host      string `yaml:"host"`
+	Port      string `yaml:"port"`
+	Database  string `yaml:"database"`
+	Charset   string `yaml:"charset"`
+	Collation string `yaml:"collation"`
+}
+
+var DB *dbType
+
+func loadDB() {
+	DB = &conf.DB
 }
