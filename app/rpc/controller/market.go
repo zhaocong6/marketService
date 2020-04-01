@@ -3,7 +3,7 @@ package controller
 import (
 	"context"
 	"github.com/zhaocong6/market"
-	marketPd "market.pd"
+	marketPd "ws/marketApi/proto/market"
 )
 
 type Market Base

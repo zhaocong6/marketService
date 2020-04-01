@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 	"google.golang.org/grpc"
-	marketPd "market.pd"
 	"testing"
+	marketPd "ws/marketApi/proto/market"
 )
 
 func TestGet(t *testing.T) {

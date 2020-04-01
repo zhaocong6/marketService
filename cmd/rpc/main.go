@@ -6,13 +6,13 @@ import (
 	"github.com/zhaocong6/market"
 	"google.golang.org/grpc"
 	"log"
-	marketPd "market.pd"
 	"net"
 	"net/http"
 	"net/url"
 	"time"
 	"ws/marketApi/app/rpc/controller"
 	"ws/marketApi/pkg/setting"
+	marketPd "ws/marketApi/proto/market"
 )
 
 func main() {
