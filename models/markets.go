@@ -59,13 +59,14 @@ func (*Market) GetChunk(query *Query, callback func(markets []Market)) {
 		markets []Market
 	)
 
-	db.Where(query.Where).Limit(100).Find(&markets)
+	db = db.Where(query.Where).Limit(100).Order("id asc")
+	db.Find(&markets)
 	callback(markets)
 
 	for len(markets) > 0 {
 		lastId := markets[len(markets)-1].ID
-		db := *db.Where("id > ?", lastId)
-		db.Limit(1).Find(&markets)
+		db := db.Where("id > ?", lastId)
+		db.Find(&markets)
 
 		if len(markets) > 0 {
 			callback(markets)
