@@ -3,6 +3,7 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/zhaocong6/market"
+	"ws/marketApi/app/api/request"
 	"ws/marketApi/app/services"
 )
 
@@ -16,15 +17,15 @@ func (m *Marketer) Index(c *gin.Context) {
 }
 
 func (m *Marketer) Store(c *gin.Context) {
-	var store services.MarketerStore
+	var req request.MarketRequest
 
-	if err := c.ShouldBindJSON(&store); err != nil {
+	if err := c.ShouldBindJSON(&req); err != nil {
 		m.ValidateResponse(c, err.Error())
 		return
 	}
 
 	service := &services.MarketService{}
-	if err := service.AddAndSub(&store); err != nil {
+	if err := service.AddAndSub(&req); err != nil {
 		m.ValidateResponse(c, err.Error())
 		return
 	}

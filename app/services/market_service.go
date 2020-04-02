@@ -4,23 +4,18 @@ import (
 	"errors"
 	"github.com/zhaocong6/market"
 	"time"
+	"ws/marketApi/app/api/request"
 	"ws/marketApi/models"
 )
 
-type MarketerStore struct {
-	Organize   string `json:"organize" binding:"required"`
-	MarketType int8   `json:"market_type" binding:"required,min=1,max=4"`
-	Symbol     string `json:"symbol" binding:"required"`
-}
-
 type MarketService struct{}
 
-func (m *MarketService) AddAndSub(store *MarketerStore) error {
+func (m *MarketService) AddAndSub(req *request.MarketRequest) error {
 
 	marketModel := &models.Market{
-		Organize: store.Organize,
-		Symbol:   store.Symbol,
-		Type:     store.MarketType,
+		Organize: req.Organize,
+		Symbol:   req.Symbol,
+		Type:     req.MarketType,
 		Expire:   nil,
 		Status:   1,
 	}
@@ -33,9 +28,9 @@ func (m *MarketService) AddAndSub(store *MarketerStore) error {
 	}
 
 	h := &market.Subscriber{
-		Symbol:     store.Symbol,
-		MarketType: market.MarketType(store.MarketType),
-		Organize:   market.Organize(store.Organize),
+		Symbol:     req.Symbol,
+		MarketType: market.MarketType(req.MarketType),
+		Organize:   market.Organize(req.Organize),
 	}
 
 	select {
