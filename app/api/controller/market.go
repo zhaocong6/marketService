@@ -17,14 +17,16 @@ func (m *Marketer) Index(c *gin.Context) {
 }
 
 func (m *Marketer) Store(c *gin.Context) {
-	var req request.MarketRequest
+	var (
+		req     = request.MarketRequest{}
+		service = &services.MarketService{}
+	)
 
-	if err := c.ShouldBindJSON(&req); err != nil {
+	if err := req.ValidateZH(c, &req); err != nil {
 		m.ValidateResponse(c, err.Error())
 		return
 	}
 
-	service := &services.MarketService{}
 	if err := service.AddAndSub(&req); err != nil {
 		m.ValidateResponse(c, err.Error())
 		return
