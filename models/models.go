@@ -58,6 +58,17 @@ func (m *Model) BeforeCreate(scope *gorm.Scope) error {
 	return err
 }
 
+type queryWhere = map[string]interface{}
+
+type Query struct {
+	Table string
+	Where queryWhere
+}
+
+func (q *Query) Map() map[string]interface{} {
+	return q.Where
+}
+
 type Transaction struct {
 	db       *gorm.DB
 	Tx       *gorm.DB

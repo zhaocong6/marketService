@@ -29,7 +29,9 @@ func marketListen() {
 	market.Run()
 
 	go func() {
-		models.Market{}.GetChunk(models.Market{}.Query(), func(markets []models.Market) {
+		mar := &models.Market{}
+
+		mar.GetChunk(mar.Query(), func(markets []models.Market) {
 			for _, m := range markets {
 				h := &market.Subscriber{
 					Symbol:     m.Symbol,

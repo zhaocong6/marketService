@@ -6,7 +6,8 @@ import (
 	"github.com/go-playground/locales/zh"
 	ut "github.com/go-playground/universal-translator"
 	"gopkg.in/go-playground/validator.v9"
-	zh_translations "gopkg.in/go-playground/validator.v9/translations/zh"
+	zhTranslations "gopkg.in/go-playground/validator.v9/translations/zh"
+	"log"
 )
 
 type requester struct{}
@@ -18,16 +19,20 @@ var (
 )
 
 func init() {
-	setZh()
+	setZhInit()
+	registerInit()
 }
 
-func setZh() {
+func setZhInit() {
 	Uni = ut.New(zh.New())
 	Validate = validator.New()
 	Trans, _ = Uni.GetTranslator("zh")
-	zh_translations.RegisterDefaultTranslations(Validate, Trans)
+	if err := zhTranslations.RegisterDefaultTranslations(Validate, Trans); err != nil {
+		log.Println(err)
+	}
 }
 
+//基础的中文验证
 func (r *requester) ValidateZH(c *gin.Context, s interface{}) error {
 	if err := c.Bind(s); err != nil {
 		return err
@@ -39,4 +44,14 @@ func (r *requester) ValidateZH(c *gin.Context, s interface{}) error {
 	}
 
 	return nil
+}
+
+func registerInit() {
+	Validate.RegisterValidation("organizeMarketTypeSymbolUnique", organizeMarketTypeSymbolUnique)
+	Validate.RegisterTranslation("organizeMarketTypeSymbolUnique", Trans, func(ut ut.Translator) error {
+		return ut.Add("organizeMarketTypeSymbolUnique", "该交易所币对已添加", true)
+	}, func(ut ut.Translator, fe validator.FieldError) string {
+		t, _ := ut.T("organizeMarketTypeSymbolUnique", fe.Field())
+		return t
+	})
 }

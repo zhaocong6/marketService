@@ -28,37 +28,44 @@ func AddMarket(m *Market, tx *gorm.DB) error {
 }
 
 //创建一个query map
-func (m Market) Query() map[string]interface{} {
-	var query = make(map[string]interface{})
+func (m *Market) Query() *Query {
+	query := &Query{
+		Table: m.TableName(),
+		Where: make(queryWhere),
+	}
 
 	if m.Organize != "" {
-		query["organize"] = m.Organize
+		query.Where["organize"] = m.Organize
 	}
 
 	if m.Symbol != "" {
-		query["symbol"] = m.Symbol
+		query.Where["symbol"] = m.Symbol
 	}
 
 	if m.Type != 0 {
-		query["type"] = m.Type
+		query.Where["type"] = m.Type
 	}
 
 	return query
 }
 
+func (m *Market) FirstByQuery(q *Query) {
+	db.Table(q.Table).Where(q.Where).First(m)
+}
+
 //使用雪花ID迭代数据
-func (Market) GetChunk(query map[string]interface{}, callback func(markets []Market)) {
+func (*Market) GetChunk(query *Query, callback func(markets []Market)) {
 	var (
 		markets []Market
 	)
 
-	db.Where(query).Where(query).Limit(100).Find(&markets)
+	db.Where(query.Where).Limit(100).Find(&markets)
 	callback(markets)
 
 	for len(markets) > 0 {
 		lastId := markets[len(markets)-1].ID
 		db := *db.Where("id > ?", lastId)
-		db.Where(query).Limit(1).Find(&markets)
+		db.Limit(1).Find(&markets)
 
 		if len(markets) > 0 {
 			callback(markets)
