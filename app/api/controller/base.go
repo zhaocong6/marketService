@@ -3,13 +3,14 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"reflect"
 )
 
 type Base struct{}
 
 //返回success response
 func (b *Base) SuccessResponse(c *gin.Context, data interface{}) {
-	if data == nil {
+	if reflect.ValueOf(data).IsNil() {
 		c.JSON(http.StatusOK, gin.H{
 			"msg": "success",
 		})

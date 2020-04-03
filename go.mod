@@ -11,7 +11,7 @@ require (
 	github.com/gorilla/websocket v1.4.2 // indirect
 	github.com/jinzhu/gorm v1.9.12
 	github.com/zhaocong6/goUtils v1.0.3 // indirect
-	github.com/zhaocong6/market v0.0.6-0.20200401071502-f907bd9d1ea2
+	github.com/zhaocong6/market v0.0.0-20200403033402-f7b73d5d601e
 	golang.org/x/net v0.0.0-20200324143707-d3edc9973b7e // indirect
 	golang.org/x/sys v0.0.0-20200331124033-c3d80250170d // indirect
 	google.golang.org/genproto v0.0.0-20200331122359-1ee6d9798940 // indirect

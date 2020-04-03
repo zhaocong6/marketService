@@ -86,6 +86,10 @@ github.com/ugorji/go/codec v1.1.7 h1:2SvQaVZ1ouYrrKKwoSk2pzd4A9evlKJb9oTL+OaLUSs
 github.com/ugorji/go/codec v1.1.7/go.mod h1:Ax+UKWsSmolVDwsd+7N3ZtXu+yMGCf907BLYF3GoBXY=
 github.com/zhaocong6/goUtils v1.0.3 h1:bBnWzRHhh00c9/z1JRU21B3w9Fv6repBWdTt5U9AU/I=
 github.com/zhaocong6/goUtils v1.0.3/go.mod h1:thhyjztxmw6lF0NGeqtmvVMKaQOdQZm01OS8M9ni4lQ=
+github.com/zhaocong6/market v0.0.0-20200403025433-7c6228cab3cb h1:F3pEhDiZFjhR86IatqGsAcNzrDGlOkFBMIB0pyc8aSQ=
+github.com/zhaocong6/market v0.0.0-20200403025433-7c6228cab3cb/go.mod h1:T1EZPku/gyqPkdsuXt5PQXeIw+f7/7NNhO/9/mtlNNA=
+github.com/zhaocong6/market v0.0.0-20200403033402-f7b73d5d601e h1:xxpp5dIM0H7moKARlHQScwdwxj+dkixnQcixaTuZvhk=
+github.com/zhaocong6/market v0.0.0-20200403033402-f7b73d5d601e/go.mod h1:T1EZPku/gyqPkdsuXt5PQXeIw+f7/7NNhO/9/mtlNNA=
 github.com/zhaocong6/market v0.0.1 h1:PuL4EKw/IF9uq656w9mLNR65g0BLhkyHTo0qE+9t1DE=
 github.com/zhaocong6/market v0.0.1/go.mod h1:T1EZPku/gyqPkdsuXt5PQXeIw+f7/7NNhO/9/mtlNNA=
 github.com/zhaocong6/market v0.0.2 h1:8XPHYmZJXPl1r7uUK398oYYUwpcCp2uhSlNqIh085Ps=
@@ -98,6 +102,14 @@ github.com/zhaocong6/market v0.0.5 h1:0fvcmz/j8jkhTcN9ceaYLBWfldp0CujU+F/t4sso4e
 github.com/zhaocong6/market v0.0.5/go.mod h1:T1EZPku/gyqPkdsuXt5PQXeIw+f7/7NNhO/9/mtlNNA=
 github.com/zhaocong6/market v0.0.6-0.20200401071502-f907bd9d1ea2 h1:vznG7wrEbHFlvoldCJlAS0F7O5lTNuA4EqITpaVYqi0=
 github.com/zhaocong6/market v0.0.6-0.20200401071502-f907bd9d1ea2/go.mod h1:T1EZPku/gyqPkdsuXt5PQXeIw+f7/7NNhO/9/mtlNNA=
+github.com/zhaocong6/market v0.0.6 h1:Yuy47WFXNMz1Mwm7fRpOPiN/rYXJH+HVXZIcPnDmlV4=
+github.com/zhaocong6/market v0.0.6/go.mod h1:T1EZPku/gyqPkdsuXt5PQXeIw+f7/7NNhO/9/mtlNNA=
+github.com/zhaocong6/market v0.0.7-0.20200403021400-4f24f4cb63ed h1:thVguIQSTlOJmKcNso0RlxyLjs+YPIJJ9uN5sY2sIps=
+github.com/zhaocong6/market v0.0.7-0.20200403021400-4f24f4cb63ed/go.mod h1:T1EZPku/gyqPkdsuXt5PQXeIw+f7/7NNhO/9/mtlNNA=
+github.com/zhaocong6/market v0.0.7-0.20200403023807-392a5f317a90 h1:mmZuopy1D3q/gqpWcl1oJUDfjV7s43JUtK2RUvDWlLU=
+github.com/zhaocong6/market v0.0.7-0.20200403023807-392a5f317a90/go.mod h1:T1EZPku/gyqPkdsuXt5PQXeIw+f7/7NNhO/9/mtlNNA=
+github.com/zhaocong6/market v0.0.7-0.20200403023840-0738e765e44d h1:4plpEngp2DoiOfxJ7W87itTMLYMExYhzBkp4j6hYrrk=
+github.com/zhaocong6/market v0.0.7-0.20200403023840-0738e765e44d/go.mod h1:T1EZPku/gyqPkdsuXt5PQXeIw+f7/7NNhO/9/mtlNNA=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
 golang.org/x/crypto v0.0.0-20190325154230-a5d413f7728c/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
 golang.org/x/crypto v0.0.0-20191205180655-e7c4368fe9dd/go.mod h1:LzIPMQfyMNhhGPhUkYOs5KpL4U8rLKemX1yGLhDgUto=
