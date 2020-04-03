@@ -2,28 +2,15 @@ package controller
 
 import (
 	"context"
-	"fmt"
-	"github.com/zhaocong6/market"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
+	"ws/marketApi/app/rpc/services"
 	pd "ws/marketApi/pd/market"
 )
 
 type Market Base
 
+var marketService = &services.MarketService{}
+
 func (m *Market) GetMarket(ctx context.Context, in *pd.MarketRequest) (*pd.MarketResponse, error) {
-	resp := &pd.MarketResponse{}
-
-	return nil, status.Error(codes.InvalidArgument, "参数错误")
-	fmt.Println(in.Keys)
-
-	data, ok := market.Find(in.Organize, in.Symbol)[in.Symbol]
-	if ok {
-		resp.Symbol = data.Symbol
-		resp.Organize = string(data.Organize)
-		resp.Timestamp = int64(data.Timestamp)
-		resp.BuyFirst = data.BuyFirst
-		resp.SellFirst = data.SellFirst
-	}
+	resp := marketService.GetMarketData(in)
 	return resp, nil
 }

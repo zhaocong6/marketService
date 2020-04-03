@@ -2,6 +2,7 @@ package controller
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/status"
@@ -18,13 +19,16 @@ func TestGet(t *testing.T) {
 	keys[1] = "sell_first"
 
 	req := &pd.MarketRequest{
-		Organize: "huobi",
-		Symbol:   "btcusdt",
+		Organize: "okex",
+		Symbol:   "EOS-USDT",
 		Keys:     keys,
 	}
 
-	_, err := c.GetMarket(context.Background(), req)
-
+	v, err := c.GetMarket(context.Background(), req)
 	s, _ := status.FromError(err)
+
+	j, _ := json.Marshal(v)
+
 	fmt.Println(s.Code(), s.Message(), s.Err())
+	fmt.Println(string(j))
 }
