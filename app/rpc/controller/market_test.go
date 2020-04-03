@@ -4,19 +4,27 @@ import (
 	"context"
 	"fmt"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/status"
 	"testing"
-	marketPd "ws/marketApi/proto/market"
+	pd "ws/marketApi/pd/market"
 )
 
 func TestGet(t *testing.T) {
 	conn, _ := grpc.Dial("127.0.0.1:8010", grpc.WithInsecure())
-	c := marketPd.NewMarketClient(conn)
-	req := &marketPd.MarketRequest{
+	c := pd.NewMarketClient(conn)
+
+	keys := make([]string, 2)
+	keys[0] = "buy_first"
+	keys[1] = "sell_first"
+
+	req := &pd.MarketRequest{
 		Organize: "huobi",
 		Symbol:   "btcusdt",
+		Keys:     keys,
 	}
 
-	res, _ := c.GetMarket(context.Background(), req)
+	_, err := c.GetMarket(context.Background(), req)
 
-	fmt.Println(res)
+	s, _ := status.FromError(err)
+	fmt.Println(s.Code(), s.Message(), s.Err())
 }

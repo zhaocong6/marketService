@@ -10,20 +10,25 @@ import (
 	"net/http"
 	"net/url"
 	"time"
-	"ws/marketApi/app/rpc/controller"
+	"ws/marketApi/models"
 	"ws/marketApi/pkg/setting"
-	marketPd "ws/marketApi/proto/market"
+	"ws/marketApi/routes"
 )
 
 func main() {
-	marketRun()
+	defer models.CloseDB()
+	marketListen()
+	serveListen()
+}
+
+func serveListen() {
 	listen, err := net.Listen("tcp", fmt.Sprintf("127.0.0.1:%d", setting.RPC.Port))
 	if err != err {
 		log.Panicln(err)
 	}
 
 	s := grpc.NewServer()
-	marketPd.RegisterMarketServer(s, &controller.Market{})
+	routes.InitRpc(s)
 
 	log.Println("服务已启动...")
 	err = s.Serve(listen)
@@ -32,7 +37,7 @@ func main() {
 	}
 }
 
-func marketRun() {
+func marketListen() {
 	uProxy, _ := url.Parse("http://127.0.0.1:8888")
 	market.DefaultDialer = &websocket.Dialer{
 		Proxy:            http.ProxyURL(uProxy),
@@ -40,46 +45,18 @@ func marketRun() {
 	}
 	market.Run()
 
-	for k := range map[string]string{
-		"ETH-USDT": "",
-		"BTC-USDT": "",
-		"EOS-USDT": "",
-		"TRX-USDT": "",
-		"BCH-USDT": "",
-		"OKB-USDT": "",
-		"XRP-USDT": "",
-		"BSV-USDT": "",
-		"LTC-USDT": "",
-		"ADA-USDT": "",
-	} {
+	go func() {
+		mar := &models.Market{}
 
-		s := &market.Subscriber{
-			Symbol:     k,
-			MarketType: market.SpotMarket,
-			Organize:   market.OkEx,
-		}
-		market.WriteSubscribing <- s
-	}
-
-	for k := range map[string]string{
-		"ethusdt": "",
-		"btcusdt": "",
-		"eosusdt": "",
-		"trxusdt": "",
-		"bchusdt": "",
-		"htusdt":  "",
-		"xrpusdt": "",
-		"bsvusdt": "",
-		"ltcusdt": "",
-		"adausdt": "",
-	} {
-
-		h := &market.Subscriber{
-			Symbol:     k,
-			MarketType: market.SpotMarket,
-			Organize:   market.HuoBi,
-		}
-
-		market.WriteSubscribing <- h
-	}
+		mar.GetChunk(mar.Query(), func(markets []models.Market) {
+			for _, m := range markets {
+				h := &market.Subscriber{
+					Symbol:     m.Symbol,
+					MarketType: market.MarketType(m.Type),
+					Organize:   market.Organize(m.Organize),
+				}
+				market.WriteSubscribing <- h
+			}
+		})
+	}()
 }

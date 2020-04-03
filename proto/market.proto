@@ -4,7 +4,8 @@ package market;
 option go_package = "market";
 
 message Depth {
-  repeated string depth = 1;
+  string price = 1;
+  string amount = 2;
 }
 
 message MarketResponse {
@@ -15,11 +16,13 @@ message MarketResponse {
   repeated Depth buy_depth = 5;
   repeated Depth sell_depth = 6;
   int64 timestamp = 7;
+  int64 Temporize = 8;
 }
 
 message MarketRequest {
   string organize = 1;
   string symbol = 2;
+  repeated string keys = 3;
 }
 
 service Market {
