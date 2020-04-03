@@ -56,6 +56,8 @@ func (m *MarketService) GetMarketData(c *gin.Context) *market.Marketer {
 	return data[c.Query("symbol")]
 }
 
+//过滤字段
+//此处可以修改为位图运算
 func (m *MarketService) marketFieldFilter(data map[string]*market.Marketer, keysMap map[string]interface{}) map[string]*market.Marketer {
 	newMarketData := make(map[string]*market.Marketer)
 

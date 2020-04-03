@@ -10,10 +10,18 @@ type Base struct{}
 
 //返回success response
 func (b *Base) SuccessResponse(c *gin.Context, data interface{}) {
+	if data == nil {
+		c.JSON(http.StatusOK, gin.H{
+			"msg": "success",
+		})
+		return
+	}
+
 	if reflect.ValueOf(data).IsNil() {
 		c.JSON(http.StatusOK, gin.H{
 			"msg": "success",
 		})
+		return
 	}
 	c.JSON(http.StatusOK, data)
 }
