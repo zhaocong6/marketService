@@ -20,7 +20,32 @@ import (
 
 func main() {
 	defer models.CloseDB()
-	go marketListen()
+
+	//启动行情监听服务
+	if setting.WsProxy.Port != 0 {
+		uProxy, _ := url.Parse(fmt.Sprintf("http://%s:%d", setting.WsProxy.Host, setting.WsProxy.Port))
+		market.DefaultDialer = &websocket.Dialer{
+			Proxy:            http.ProxyURL(uProxy),
+			HandshakeTimeout: 10 * time.Second,
+		}
+	}
+	market.Run()
+	defer market.Close()
+
+	go func() {
+		mar := &models.Market{}
+
+		mar.GetChunk(mar.Query(), func(markets []models.Market) {
+			for _, m := range markets {
+				h := &market.Subscriber{
+					Symbol:     m.Symbol,
+					MarketType: market.MarketType(m.Type),
+					Organize:   market.Organize(m.Organize),
+				}
+				market.WriteSubscribing <- h
+			}
+		})
+	}()
 
 	//启动gin
 	gin.SetMode(setting.RunMode)
@@ -42,6 +67,7 @@ func main() {
 		}
 	}()
 
+	//平滑重启
 	ch := make(chan os.Signal)
 	//监听信号
 	signal.Notify(ch, syscall.SIGINT, syscall.SIGTERM, os.Interrupt, syscall.SIGHUP)
@@ -49,42 +75,12 @@ func main() {
 	log.Println("exit signal:", sig)
 
 	//设置一个关闭最大超时
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*1)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
 	defer cancel()
 
 	//向服务发送关闭信号
 	go server.Shutdown(ctx)
 
-	//正常关闭成功
 	<-ctx.Done()
 	log.Println("shutting down")
-}
-
-func marketListen() {
-	if setting.WsProxy.Port != 0 {
-		uProxy, _ := url.Parse(fmt.Sprintf("http://%s:%d", setting.WsProxy.Host, setting.WsProxy.Port))
-		market.DefaultDialer = &websocket.Dialer{
-			Proxy:            http.ProxyURL(uProxy),
-			HandshakeTimeout: 10 * time.Second,
-		}
-	}
-
-	market.Run()
-
-	mar := &models.Market{}
-
-	mar.GetChunk(mar.Query(), func(markets []models.Market) {
-		for _, m := range markets {
-			h := &market.Subscriber{
-				Symbol:     m.Symbol,
-				MarketType: market.MarketType(m.Type),
-				Organize:   market.Organize(m.Organize),
-			}
-			market.WriteSubscribing <- h
-		}
-	})
-}
-
-func serveListen() {
-
 }
