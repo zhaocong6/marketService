@@ -75,7 +75,7 @@ func main() {
 	log.Println("exit signal:", sig)
 
 	//设置一个关闭最大超时
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*1)
 	defer cancel()
 
 	//向服务发送关闭信号
