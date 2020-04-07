@@ -11,9 +11,10 @@ type app struct {
 	App     string `yaml:"app"`
 	RunMode string `yaml:"run_mode"`
 
-	Http httpType `yaml:"http"`
-	Rpc  rpcType  `yaml:"rpc"`
-	DB   dbType   `yaml:"db"`
+	Http    httpType    `yaml:"http"`
+	Rpc     rpcType     `yaml:"rpc"`
+	DB      dbType      `yaml:"db"`
+	WsProxy WsProxyType `yaml:"ws_proxy"`
 }
 
 var conf app
@@ -35,6 +36,7 @@ func init() {
 	loadApp()
 	loadRunMode()
 	loadDB()
+	loadWsProxy()
 }
 
 type httpType struct {
@@ -90,4 +92,15 @@ var DB *dbType
 
 func loadDB() {
 	DB = &conf.DB
+}
+
+type WsProxyType struct {
+	Port int    `yaml:"port"`
+	Host string `yaml:"host"`
+}
+
+var WsProxy *WsProxyType
+
+func loadWsProxy() {
+	WsProxy = &conf.WsProxy
 }

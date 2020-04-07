@@ -17,3 +17,7 @@ db:
   database: market
   charset: utf8mb4
   collation: utf8mb4_unicode_ci
+
+ws_proxy:
+  host: "127.0.0.1"
+  port: 8888

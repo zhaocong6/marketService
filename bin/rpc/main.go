@@ -6,13 +6,13 @@ import (
 	"github.com/zhaocong6/market"
 	"google.golang.org/grpc"
 	"log"
+	"marketApi/models"
+	"marketApi/pkg/setting"
+	"marketApi/routes"
 	"net"
 	"net/http"
 	"net/url"
 	"time"
-	"marketApi/models"
-	"marketApi/pkg/setting"
-	"marketApi/routes"
 )
 
 func main() {
@@ -38,11 +38,14 @@ func serveListen() {
 }
 
 func marketListen() {
-	uProxy, _ := url.Parse("http://127.0.0.1:8888")
-	market.DefaultDialer = &websocket.Dialer{
-		Proxy:            http.ProxyURL(uProxy),
-		HandshakeTimeout: 10 * time.Second,
+	if setting.WsProxy.Port != 0 {
+		uProxy, _ := url.Parse(fmt.Sprintf("http://%s:%d", setting.WsProxy.Host, setting.WsProxy.Port))
+		market.DefaultDialer = &websocket.Dialer{
+			Proxy:            http.ProxyURL(uProxy),
+			HandshakeTimeout: 10 * time.Second,
+		}
 	}
+
 	market.Run()
 
 	go func() {

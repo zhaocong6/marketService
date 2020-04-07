@@ -21,11 +21,14 @@ func main() {
 }
 
 func marketListen() {
-	uProxy, _ := url.Parse("http://127.0.0.1:8888")
-	market.DefaultDialer = &websocket.Dialer{
-		Proxy:            http.ProxyURL(uProxy),
-		HandshakeTimeout: 10 * time.Second,
+	if setting.WsProxy.Port != 0 {
+		uProxy, _ := url.Parse(fmt.Sprintf("http://%s:%d", setting.WsProxy.Host, setting.WsProxy.Port))
+		market.DefaultDialer = &websocket.Dialer{
+			Proxy:            http.ProxyURL(uProxy),
+			HandshakeTimeout: 10 * time.Second,
+		}
 	}
+
 	market.Run()
 
 	go func() {
