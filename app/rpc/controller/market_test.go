@@ -2,17 +2,45 @@ package controller
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
+	"github.com/zhaocong6/goUtils/goroutinepool"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/status"
+	"sync"
 	"testing"
 	pd "ws/marketApi/pd/market"
 )
 
 func TestGet(t *testing.T) {
+	var wg sync.WaitGroup
+	num := 1
+	wg.Add(num)
+
 	conn, _ := grpc.Dial("127.0.0.1:8010", grpc.WithInsecure())
-	c := pd.NewMarketClient(conn)
+	w := goroutinepool.NewPool(goroutinepool.Options{
+		Capacity:  3000,
+		JobBuffer: 1000,
+	})
+
+	j := &Job{
+		c:  pd.NewMarketClient(conn),
+		wg: &wg,
+	}
+	for i := 0; i < num; i++ {
+		w.Put(j)
+	}
+	wg.Wait()
+
+	fmt.Println(j.data)
+}
+
+type Job struct {
+	c    pd.MarketClient
+	wg   *sync.WaitGroup
+	data *pd.MarketResponse
+}
+
+func (j *Job) Handle() error {
+	defer j.wg.Done()
 
 	keys := make([]string, 2)
 	keys[0] = "buy_first"
@@ -24,11 +52,7 @@ func TestGet(t *testing.T) {
 		Keys:     keys,
 	}
 
-	v, err := c.GetMarket(context.Background(), req)
-	s, _ := status.FromError(err)
+	j.data, _ = j.c.GetMarket(context.Background(), req)
 
-	j, _ := json.Marshal(v)
-
-	fmt.Println(s.Code(), s.Message(), s.Err())
-	fmt.Println(string(j))
+	return nil
 }

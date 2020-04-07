@@ -45,6 +45,7 @@ func marketListen() {
 }
 
 func serveListen() {
+	//启动gin
 	gin.SetMode(setting.RunMode)
 	router := gin.New()
 	routes.InitApi(router)
@@ -56,7 +57,6 @@ func serveListen() {
 		ReadTimeout:       10 * time.Second,
 		WriteTimeout:      15 * time.Second,
 	}
-
 	err := server.ListenAndServe()
 	if err != nil {
 		log.Panicln(err)
