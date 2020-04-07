@@ -2,11 +2,10 @@ package services
 
 import (
 	"errors"
-	"github.com/gin-gonic/gin"
 	"github.com/zhaocong6/market"
-	"time"
 	"marketApi/app/api/request"
 	"marketApi/models"
+	"time"
 )
 
 type MarketService struct{}
@@ -45,20 +44,27 @@ func (m *MarketService) AddAndSub(req *request.MarketRequest) error {
 	return nil
 }
 
-func (m *MarketService) GetMarketData(c *gin.Context) *market.Marketer {
-	data := market.Find(c.Query("organize"), c.Query("symbol"))
-	keys := c.QueryArray("keys[]")
+type GetMarketParams struct {
+	Keys   map[string][]string
+	Fields []string
+}
 
-	if len(keys) > 0 {
-		data = m.marketFieldFilter(data, m.keysMap(keys))
+func (m *MarketService) GetMarketData(p *GetMarketParams) map[string]*market.Marketer {
+	for organize, symbols := range p.Keys {
+		data := market.Find(organize, symbols...)
+		fields := m.keysMap(p.Fields)
+		if len(fields) > 0 {
+			data = m.marketFieldFilter(data, fields)
+		}
+
+		return data
 	}
-
-	return data[c.Query("symbol")]
+	return nil
 }
 
 //过滤字段
 //此处可以修改为位图运算
-func (m *MarketService) marketFieldFilter(data map[string]*market.Marketer, keysMap map[string]interface{}) map[string]*market.Marketer {
+func (m *MarketService) marketFieldFilter(data map[string]*market.Marketer, fieldsMap map[string]interface{}) map[string]*market.Marketer {
 	newMarketData := make(map[string]*market.Marketer)
 
 	for key, val := range data {
@@ -77,27 +83,27 @@ func (m *MarketService) marketFieldFilter(data map[string]*market.Marketer, keys
 		m.Organize = val.Organize
 		m.Symbol = val.Symbol
 
-		if _, ok := keysMap["buy_first"]; ok {
+		if _, ok := fieldsMap["buy_first"]; ok {
 			m.BuyFirst = val.BuyFirst
 		}
 
-		if _, ok := keysMap["sell_first"]; ok {
+		if _, ok := fieldsMap["sell_first"]; ok {
 			m.SellFirst = val.SellFirst
 		}
 
-		if _, ok := keysMap["buy_depth"]; ok {
+		if _, ok := fieldsMap["buy_depth"]; ok {
 			m.BuyDepth = val.BuyDepth
 		}
 
-		if _, ok := keysMap["sell_depth"]; ok {
+		if _, ok := fieldsMap["sell_depth"]; ok {
 			m.SellDepth = val.SellDepth
 		}
 
-		if _, ok := keysMap["timestamp"]; ok {
+		if _, ok := fieldsMap["timestamp"]; ok {
 			m.Timestamp = val.Timestamp
 		}
 
-		if _, ok := keysMap["temporize"]; ok {
+		if _, ok := fieldsMap["temporize"]; ok {
 			m.Temporize = val.Temporize
 		}
 
