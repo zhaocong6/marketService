@@ -5,8 +5,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/zhaocong6/market"
 	"time"
-	"ws/marketApi/app/api/request"
-	"ws/marketApi/models"
+	"marketApi/app/api/request"
+	"marketApi/models"
 )
 
 type MarketService struct{}

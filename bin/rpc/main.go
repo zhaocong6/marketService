@@ -10,9 +10,9 @@ import (
 	"net/http"
 	"net/url"
 	"time"
-	"ws/marketApi/models"
-	"ws/marketApi/pkg/setting"
-	"ws/marketApi/routes"
+	"marketApi/models"
+	"marketApi/pkg/setting"
+	"marketApi/routes"
 )
 
 func main() {

@@ -7,8 +7,8 @@ import (
 	"log"
 	"sync"
 	"time"
-	"ws/marketApi/pkg/setting"
-	"ws/marketApi/pkg/snowflakelib"
+	"marketApi/pkg/setting"
+	"marketApi/pkg/snowflakelib"
 )
 
 var db *gorm.DB

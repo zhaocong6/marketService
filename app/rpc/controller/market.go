@@ -2,8 +2,8 @@ package controller
 
 import (
 	"context"
-	"ws/marketApi/app/rpc/services"
-	pd "ws/marketApi/pd/market"
+	"marketApi/app/rpc/services"
+	pd "marketApi/pd/market"
 )
 
 type Market Base

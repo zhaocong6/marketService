@@ -2,7 +2,7 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
-	"ws/marketApi/app/api/controller"
+	"marketApi/app/api/controller"
 )
 
 func InitApi(r *gin.Engine) {

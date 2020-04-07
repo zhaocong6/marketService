@@ -6,12 +6,12 @@ import (
 	"github.com/gorilla/websocket"
 	"github.com/zhaocong6/market"
 	"log"
+	"marketApi/models"
+	"marketApi/pkg/setting"
+	"marketApi/routes"
 	"net/http"
 	"net/url"
 	"time"
-	"ws/marketApi/models"
-	"ws/marketApi/pkg/setting"
-	"ws/marketApi/routes"
 )
 
 func main() {

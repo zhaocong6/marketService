@@ -7,7 +7,7 @@ import (
 	"google.golang.org/grpc"
 	"sync"
 	"testing"
-	pd "ws/marketApi/pd/market"
+	pd "marketApi/pd/market"
 )
 
 func TestGet(t *testing.T) {

@@ -2,7 +2,7 @@ package services
 
 import (
 	"github.com/zhaocong6/market"
-	pd "ws/marketApi/pd/market"
+	pd "marketApi/pd/market"
 )
 
 type MarketService struct{}

@@ -2,8 +2,8 @@ package routes
 
 import (
 	"google.golang.org/grpc"
-	"ws/marketApi/app/rpc/controller"
-	marketPd "ws/marketApi/pd/market"
+	"marketApi/app/rpc/controller"
+	marketPd "marketApi/pd/market"
 )
 
 func InitRpc(s *grpc.Server) {

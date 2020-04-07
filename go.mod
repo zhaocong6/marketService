@@ -1,4 +1,4 @@
-module ws/marketApi
+module marketApi
 
 go 1.13
 

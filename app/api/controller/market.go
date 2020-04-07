@@ -2,8 +2,8 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
-	"ws/marketApi/app/api/request"
-	"ws/marketApi/app/api/services"
+	"marketApi/app/api/request"
+	"marketApi/app/api/services"
 )
 
 type Marketer struct {

@@ -2,7 +2,7 @@ package request
 
 import (
 	"gopkg.in/go-playground/validator.v9"
-	"ws/marketApi/models"
+	"marketApi/models"
 )
 
 type MarketRequest struct {
